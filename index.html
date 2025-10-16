@@ -1,0 +1,1520 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manuel Richard</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -webkit-system-font, system-ui, sans-serif;
+            background: linear-gradient(135deg, #dc2626 0%, #fbbf24 100%);
+            color: #333;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* Floating Elements */
+        .floating-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.7;
+            animation: float-across 15s linear infinite;
+        }
+
+        .floating-shape {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .floating-icon {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .floating-geometric {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            transform: rotate(45deg);
+        }
+
+        @keyframes float-across {
+            0% {
+                transform: translateX(-100px) translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(-50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Particle System */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: particle-float 8s ease-in-out infinite;
+        }
+
+        @keyframes particle-float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-100px) translateX(50px);
+                opacity: 1;
+            }
+        }
+
+        /* Header with Photo */
+        header {
+            padding: 3rem 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #dc2626, #fbbf24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            animation: profile-glow 3s ease-in-out infinite alternate;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-photo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shine 4s ease-in-out infinite;
+        }
+
+        @keyframes profile-glow {
+            0% { box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3); }
+            100% { box-shadow: 0 20px 50px rgba(118, 75, 162, 0.4); }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .profile-info {
+            text-align: left;
+        }
+
+        .designer-name {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(45deg, #dc2626, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: text-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-glow {
+            0% { filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.3)); }
+            100% { filter: drop-shadow(0 0 15px rgba(118, 75, 162, 0.5)); }
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: #666;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        /* Interactive Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid #dc2626;
+            border-radius: 30px;
+            color: #dc2626;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: #fbbf24;
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .section {
+            display: none;
+            animation: section-enter 0.8s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes section-enter {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Upload Section */
+        .upload-section {
+            margin-bottom: 3rem;
+        }
+
+        .upload-area {
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px dashed #dc2626;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .upload-area:hover {
+            border-color: #fbbf24;
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: upload-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes upload-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .upload-area h3 {
+            font-size: 1.8rem;
+            margin: 1rem 0;
+            color: #333;
+        }
+
+        .upload-area p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .upload-btn {
+            background: linear-gradient(45deg, #dc2626, #fbbf24);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .placeholder-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #dc2626, #fbbf24);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+
+        .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: icon-float 3s ease-in-out infinite;
+        }
+
+        @keyframes icon-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .placeholder-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .actual-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .actual-image {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .view-btn, .delete-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+
+        .delete-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 2rem;
+            width: 90%;
+            height: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #667eea;
+        }
+
+        .modal-nav {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* About Section */
+        .about-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            text-align: left;
+            max-width: 1000px;
+            margin: 0 auto;
+            white-space: pre-line;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .contact-card:hover::before {
+            left: 100%;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #dc2626;
+            animation: icon-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes icon-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .contact-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            font-weight: 800;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: title-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes title-glow {
+            0% { text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+            100% { text-shadow: 0 10px 30px rgba(255, 255, 255, 0.2); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-section {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .profile-info {
+                text-align: center;
+            }
+
+            .designer-name {
+                font-size: 2.5rem;
+            }
+
+            .nav-container {
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                padding: 0.8rem 1.5rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            .portfolio-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Mouse interaction effects */
+        .interactive-element {
+            transition: all 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            filter: brightness(1.1) saturate(1.2);
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body><!-- Custom Cursor -->
+  <div class="custom-cursor" id="cursor"></div><!-- Floating Elements Container -->
+  <div class="floating-container" id="floatingContainer"></div><!-- Header with Profile -->
+  <header>
+   <div class="profile-section">
+    <div class="profile-photo interactive-element">
+     <img src="0bb515339ee0e0f1d408ef83586dfed3.jpg"> </img> 
+    </div>
+    <div class="profile-info">
+     <h1 class="designer-name" id="designer-name">Manuel Richard</h1>
+     <p class="tagline" id="tagline">Bringing Ideas to  Life's Through Design</p>
+    </div>
+   </div>
+  </header><!-- Navigation -->
+  <nav>
+   <div class="nav-container"><button class="nav-btn active interactive-element" data-section="portfolio">Portfolio</button> <button class="nav-btn interactive-element" data-section="about">About</button> <button class="nav-btn interactive-element" data-section="contact">Contact</button>
+   </div>
+  </nav><!-- Main Content -->
+  <main><!-- Portfolio Section -->
+   <section id="portfolio" class="section active">
+    <h2 class="section-title">My Creative Works | Gallery</h2><!-- Gallery Instructions -->
+    <div class="upload-section">
+    
+    </div><!-- Image Gallery -->
+    <div class="image-gallery" id="imageGallery"><!-- Replace the src URLs below with your actual design images -->
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="8a9e6cd98e596a50e39604d0afb67236.jpg" alt="Design Project 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="8a9e6cd98e596a50e39604d0afb67236.jpg"> </img> 
+        </div>
+        <div class="placeholder-text">
+         
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="h5cbfc6f863db9d909c631e891924959.jpg" alt="Design Project 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+        <img src="35cbfc6f863db9d909c631e891924959.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="10.jpg" alt="Design Project 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="10.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="1.jpg" alt="Design Project 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="1.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="2.jpg" alt="Design Project 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="2.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="3.jpg" alt="Design Project 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+        <img src="3.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+         
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+    </div>
+    
+    
+
+     </div><!-- Image Gallery -->
+    <div class="image-gallery" id="imageGallery"><!-- Replace the src URLs below with your actual design images -->
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="4.jpg" alt="Design Project 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="4.jpg"> </img> 
+        </div>
+        <div class="placeholder-text">
+         
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="5.jpg" alt="Design Project 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+        <img src="5.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="6.jpg" alt="Design Project 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="6.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="7.jpg" alt="Design Project 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="7.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="8.jpg" alt="Design Project 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="8.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="9.jpg" alt="Design Project 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+        <img src="9.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+         
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+    </div>
+      </div><!-- Image Gallery -->
+    <div class="image-gallery" id="imageGallery"><!-- Replace the src URLs below with your actual design images -->
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="22.jpg" alt="Design Project 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="22.jpg"> </img> 
+        </div>
+        <div class="placeholder-text">
+         
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="11.jpg" alt="Design Project 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+        <img src="11.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="12.jpg" alt="Design Project 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="12.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="13.jpg" alt="Design Project 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="13.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="14.jpg" alt="Design Project 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="14.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="15.jpg" alt="Design Project 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+        <img src="15.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+         
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+    </div>
+      </div><!-- Image Gallery -->
+    <div class="image-gallery" id="imageGallery"><!-- Replace the src URLs below with your actual design images -->
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="16.jpg" alt="Design Project 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="16.jpg"> </img> 
+        </div>
+        <div class="placeholder-text">
+         
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="17.jpg" alt="Design Project 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+        <img src="17.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="18.jpg" alt="Design Project 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="18.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="19.jpg" alt="Design Project 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="19.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="20.jpg" alt="Design Project 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+         <img src="20.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+        
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-item interactive-element">
+      <div class="gallery-image"><img class="actual-image" src="21.jpg" alt="Design Project 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="placeholder-image" style="display: none;">
+        <div class="placeholder-icon">
+        <img src="21.jpg"> </img>
+        </div>
+        <div class="placeholder-text">
+         
+        </div>
+       </div>
+       <div class="image-overlay"><button class="view-btn">View Full Size</button>
+       </div>
+      </div>
+     </div>
+    </div>
+     
+
+
+    <!-- Fullscreen Modal -->
+    <div class="modal" id="imageModal">
+<div class="modal-content"><span class="close-modal">×</span> <img class="modal-image" id="modalImage" src="" alt="Full size image">
+      <div class="modal-nav"><button class="nav-btn prev-btn" id="prevBtn">❮ Previous</button> <button class="nav-btn next-btn" id="nextBtn">Next ❯</button>
+      </div> */
+     
+
+
+
+
+
+    
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section id="about" class="section">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-container interactive-element">
+     <p class="about-text" id="about-text">I'm a passionate graphic designer with over 8 years of experience creating compelling visual solutions. My approach combines creative thinking with strategic design to deliver impactful results that resonate with audiences and drive business success. I specialize in brand identity, digital design, and user experience, always staying current with the latest design trends and technologies.</p>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="section">
+    <h2 class="section-title">Let's Connect</h2>
+    <div class="contact-grid">
+     <div class="contact-card interactive-element">
+      <div class="contact-icon">
+       📧
+      </div>
+      <div class="contact-title">
+       Email
+      </div>
+      <div class="contact-info" id="contact-email">
+       richmindgraphiz@gmail.com
+      </div>
+     </div>
+     <div class="contact-card interactive-element">
+      <div class="contact-icon">
+       📱
+      </div>
+      <div class="contact-title">
+       Phone &amp; WhatsApp
+      </div>
+      <div class="contact-info" id="contact-phone">
+       08156899262
+      </div>
+     </div>
+     <div class="contact-card interactive-element">
+      <div class="contact-icon">
+       🌍
+      </div>
+      <div class="contact-title">
+       Location
+      </div>
+      <div class="contact-info">
+       Delta State, Nigeria
+      </div>
+     </div>
+     <div class="contact-card interactive-element">
+      <div class="contact-icon">
+       📌
+      </div>
+      <div class="contact-title">
+       Pinterest
+      </div>
+      <div class="contact-info"><a href="https://pin.it/7u7dZZQEX" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">View Portfolio</a>
+      </div>
+     </div>
+     <div class="contact-card interactive-element">
+      <div class="contact-icon">
+       📷
+      </div>
+      <div class="contact-title">
+       Instagram
+      </div>
+      <div class="contact-info"><a href="https://www.instagram.com/richmind__graphiz/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">@richmind__graphiz</a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <script>
+        // Configuration object
+        const defaultConfig = {
+            designer_name: "MANUEL RICHARD",
+            tagline: "GRAPHIC DESIGNER | LIFESTYLE | MODEL",
+            about_text: "To become a highly skilled professional with well-developed Communication and Human Relational skills, zealous and determined to perform optimally and excellently in a leadership position requiring personal integrity, organizational skills and creativity to meet up with the set goals and objectives.\n\nEDUCATION\n• Dennis Osadabey University, Asaba, Delta State (2022 – Till Date) - B.Sc. Computer Science\n• Agbidiama Grammar School, Agbidiama, Bayelsa State (2018) - Senior School Certificate Examination (SSCE)\n• Royal College Ovwian, Udu, Delta State (2012) - Primary School Leaving Certificate\n\nWORK EXPERIENCE\n• DEFAULT CULTURE (2024 Till Date) - Graphics Designer\n• SPOTLESS PAGE PRINTING (2020 - 2023) - Graphics Designer\n• MR. MEZZY COMPUTERS (2017 - 2020) - Computer Instructor/Managing Director\n• TAMBIZ COMMUNICATION (2014 - 2016) - Computer Instructor/Managing Director\n\nHOBBIES\nResearch, Creating Designs, Swimming and Singing",
+            contact_email: "richmindgraphiz@gmail.com",
+            contact_phone: "08156899262",
+            primary_color: "#dc2626",
+            secondary_color: "#fbbf24",
+            accent_color: "#ffffff",
+            background_color: "#ffffff",
+            text_color: "#333333"
+        };
+
+        // Custom Cursor
+        let cursor = document.getElementById('cursor');
+        let cursorTrails = [];
+        let mouseX = 0, mouseY = 0;
+
+        // Create cursor trails
+        for (let i = 0; i < 5; i++) {
+            let trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            cursorTrails.push({
+                element: trail,
+                x: 0,
+                y: 0
+            });
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursor.style.left = mouseX - 10 + 'px';
+            cursor.style.top = mouseY - 10 + 'px';
+        });
+
+        // Animate cursor trails
+        function animateTrails() {
+            let targetX = mouseX;
+            let targetY = mouseY;
+            
+            cursorTrails.forEach((trail, index) => {
+                trail.x += (targetX - trail.x) * (0.3 - index * 0.05);
+                trail.y += (targetY - trail.y) * (0.3 - index * 0.05);
+                
+                trail.element.style.left = trail.x - 4 + 'px';
+                trail.element.style.top = trail.y - 4 + 'px';
+                trail.element.style.opacity = (1 - index * 0.2);
+                
+                targetX = trail.x;
+                targetY = trail.y;
+            });
+            
+            requestAnimationFrame(animateTrails);
+        }
+        animateTrails();
+
+        // Floating Elements System
+        function createFloatingElement() {
+            const container = document.getElementById('floatingContainer');
+            const element = document.createElement('div');
+            element.className = 'floating-element';
+            
+            const types = ['shape', 'icon', 'geometric'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            if (type === 'shape') {
+                element.innerHTML = '<div class="floating-shape"></div>';
+            } else if (type === 'icon') {
+                const icons = ['✨', '🎨', '💫', '⭐', '🌟', '💎', '🔥', '⚡', '🎯', '🚀'];
+                element.innerHTML = `<div class="floating-icon">${icons[Math.floor(Math.random() * icons.length)]}</div>`;
+            } else {
+                element.innerHTML = '<div class="floating-geometric"></div>';
+            }
+            
+            // Random starting position and animation duration
+            element.style.top = Math.random() * window.innerHeight + 'px';
+            element.style.left = '-100px';
+            element.style.animationDuration = (10 + Math.random() * 10) + 's';
+            element.style.animationDelay = Math.random() * 2 + 's';
+            
+            container.appendChild(element);
+            
+            // Remove element after animation
+            setTimeout(() => {
+                if (element.parentNode) {
+                    element.parentNode.removeChild(element);
+                }
+            }, 20000);
+        }
+
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('floatingContainer');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.top = window.innerHeight + 'px';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Navigation functionality
+        function initNavigation() {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('.section');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetSection = button.getAttribute('data-section');
+                    
+                    // Update active button
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Show target section
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetSection) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        // Interactive hover effects
+        function initInteractiveEffects() {
+            const interactiveElements = document.querySelectorAll('.interactive-element');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'scale(2)';
+                    cursor.style.background = 'rgba(102, 126, 234, 0.8)';
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.background = 'rgba(255, 255, 255, 0.8)';
+                });
+            });
+        }
+
+        // Image Gallery functionality
+        let galleryImages = [];
+        let currentImageIndex = 0;
+
+        function initImageGallery() {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const closeModal = document.querySelector('.close-modal');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            // Collect all gallery images
+            const galleryItems = document.querySelectorAll('.gallery-item img.actual-image');
+            galleryImages = Array.from(galleryItems).map(img => img.src);
+
+            // Modal functionality
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+                modalImage.src = galleryImages[currentImageIndex];
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+                modalImage.src = galleryImages[currentImageIndex];
+            });
+
+            // Initialize gallery with existing items
+            initExistingGalleryItems();
+        }
+
+        function initExistingGalleryItems() {
+            const existingItems = document.querySelectorAll('.gallery-item');
+            
+            existingItems.forEach((item, index) => {
+                const viewBtn = item.querySelector('.view-btn');
+                const img = item.querySelector('img.actual-image');
+                
+                if (viewBtn && img) {
+                    viewBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openModal(img.src);
+                    });
+                }
+            });
+        }
+
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            
+            currentImageIndex = galleryImages.indexOf(imageSrc);
+            modalImage.src = imageSrc;
+            modal.style.display = 'block';
+        }
+
+        function addInteractiveEffects(element) {
+            element.addEventListener('mouseenter', () => {
+                const cursor = document.getElementById('cursor');
+                if (cursor) {
+                    cursor.style.transform = 'scale(2)';
+                    cursor.style.background = 'rgba(102, 126, 234, 0.8)';
+                }
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                const cursor = document.getElementById('cursor');
+                if (cursor) {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.background = 'rgba(255, 255, 255, 0.8)';
+                }
+            });
+        }
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Render function for Element SDK
+        async function render(config) {
+            // Update text content
+            document.getElementById('designer-name').textContent = config.designer_name || defaultConfig.designer_name;
+            document.getElementById('tagline').textContent = config.tagline || defaultConfig.tagline;
+            document.getElementById('about-text').textContent = config.about_text || defaultConfig.about_text;
+            document.getElementById('contact-email').textContent = config.contact_email || defaultConfig.contact_email;
+            document.getElementById('contact-phone').textContent = config.contact_phone || defaultConfig.contact_phone;
+
+            // Update colors
+            const primaryColor = config.primary_color || defaultConfig.primary_color;
+            const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+            const accentColor = config.accent_color || defaultConfig.accent_color;
+
+            // Apply colors to various elements
+            document.body.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            
+            // Update designer name gradient
+            const designerNameEl = document.getElementById('designer-name');
+            designerNameEl.style.background = `linear-gradient(45deg, ${primaryColor}, ${secondaryColor})`;
+            designerNameEl.style.webkitBackgroundClip = 'text';
+            designerNameEl.style.webkitTextFillColor = 'transparent';
+            designerNameEl.style.backgroundClip = 'text';
+
+            // Update profile photo gradient
+            const profilePhoto = document.querySelector('.profile-photo');
+            profilePhoto.style.background = `linear-gradient(45deg, ${primaryColor}, ${secondaryColor})`;
+
+            // Update navigation buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.style.borderColor = primaryColor;
+                btn.style.color = primaryColor;
+            });
+
+            // Update tags
+            const tags = document.querySelectorAll('.tag');
+            tags.forEach(tag => {
+                tag.style.background = `linear-gradient(45deg, ${primaryColor}, ${secondaryColor})`;
+            });
+
+            // Update contact icons
+            const contactIcons = document.querySelectorAll('.contact-icon');
+            contactIcons.forEach(icon => {
+                icon.style.color = primaryColor;
+            });
+        }
+
+        // Capabilities mapping
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.primary_color || defaultConfig.primary_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ primary_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.secondary_color || defaultConfig.secondary_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ secondary_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.accent_color || defaultConfig.accent_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ accent_color: value });
+                            }
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        // Edit panel values mapping
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["designer_name", config.designer_name || defaultConfig.designer_name],
+                ["tagline", config.tagline || defaultConfig.tagline],
+                ["about_text", config.about_text || defaultConfig.about_text],
+                ["contact_email", config.contact_email || defaultConfig.contact_email],
+                ["contact_phone", config.contact_phone || defaultConfig.contact_phone]
+            ]);
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation();
+            initInteractiveEffects();
+            initImageGallery();
+            createParticles();
+            
+            // Create floating elements periodically
+            setInterval(createFloatingElement, 2000);
+            
+            // Initialize Element SDK
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig,
+                    render,
+                    mapToCapabilities,
+                    mapToEditPanelValues
+                });
+            }
+
+            // Initial render
+            render(defaultConfig);
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f67a19163b8c46',t:'MTc2MDYwNjM5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
